@@ -3,7 +3,9 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -63,7 +65,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    return when {
+        age % 100 in 11..14 -> "$age лет"
+        age % 10 == 1 -> "$age год"
+        age % 10 in 2..4 -> "$age года"
+        else -> "$age лет"
+    }
+}
 
 /**
  * Простая
@@ -76,7 +85,22 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    val s1: Double = t1 * v1
+    val s2: Double = t2 * v2
+    val s3: Double = t3 * v3
+    val S: Double = s1 + s2 + s3
+    val S_half: Double = S / 2
+
+    if (s1 >= S_half) return S_half / v1
+    if (s1 + s2 >= S_half) {
+        val s2 = S_half - s1
+        return t1 + s2 / v2
+    }
+
+    val last = S_half - s2 - s1
+    return t1 + t2 + last / v3
+}
 
 /**
  * Простая
@@ -91,7 +115,14 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    var count = 0
+
+    if ((kingX == rookX1) || (kingY == rookY1)) count += 1
+    if ((kingX == rookX2) || (kingY == rookY2)) count += 2
+
+    return count
+}
 
 /**
  * Простая
@@ -107,7 +138,16 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    var count = 0
+
+    if ((kingX == rookX) || (kingY == rookY)) count += 1
+    if ((kingX + kingY) == (bishopX + bishopY)
+        || (kingX - bishopX) == (kingY - bishopY)
+    ) count += 2
+
+    return count
+}
 
 /**
  * Простая
@@ -117,7 +157,22 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    return when {
+        // не существует
+        ((a + b <= c) || (a + c <= b) || (b + c <= a)) -> -1
+
+        // прямоугольный
+        ((c > a) && (c > b)) && sqr(a) + sqr(b) == sqr(c) -> 1
+        ((b > a) && (b > c)) && sqr(a) + sqr(c) == sqr(b) -> 1
+        ((a > b) && (a > c)) && sqr(b) + sqr(c) == sqr(a) -> 1
+
+        // остроугольный
+        (sqr(a) + sqr(b) > sqr(c)) && (sqr(a) + sqr(c) > sqr(b)) && (sqr(b) + sqr(c) > sqr(a)) -> 0
+
+        else -> 2
+    }
+}
 
 /**
  * Средняя
@@ -127,4 +182,15 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return when {
+        // внутри
+        a in c..d && b in c..d -> b - a
+        // одна точка вне
+        a !in c..d && b in c..d -> max(b, c) - min(b, c)
+        a in c..d && b !in c..d -> max(a, d) - min(a, d)
+        // a и b вне CD
+        c in a..b && d in a..b -> d - c
+        else -> -1
+    }
+}
