@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.collections.contains as contains1
+
 /**
  * Пример
  *
@@ -91,7 +93,22 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val res = mutableMapOf<Int, List<String>>()
+    for (appraisal in grades.values.distinct()) {
+        val applist = mutableListOf<String>()
+
+        for (user in grades) {
+            if (user.value == appraisal) {
+                applist.add(user.key)
+            }
+
+        }
+        res += (appraisal to applist)
+
+    }
+    return res.toMap()
+}
 
 /**
  * Простая
@@ -176,7 +193,21 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    var price: Double = 10000.0
+    var myProd: String = ""
+
+    for ((name, product) in stuff) {
+        if (product.first == kind && product.second < price) {
+            myProd = name
+            price = product.second
+        }
+    }
+
+    if (myProd.isEmpty()) return null
+
+    return myProd
+}
 
 /**
  * Средняя
@@ -187,7 +218,15 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    if (chars.isEmpty()) return false
+    while (true) {
+        for (i in chars) {
+            if (i !in word) return false
+        }
+        return true
+    }
+}
 
 /**
  * Средняя
@@ -201,7 +240,25 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val letCount = mutableMapOf<String, Int>()
+    val myCount = mutableMapOf<String, Int>()
+    for (letter in list) {
+        if (letter in letCount.keys) {
+            val lCount = letCount[letter]!! + 1
+            letCount[letter] = lCount
+        } else {
+            letCount[letter] = 1
+        }
+    }
+    for ((key, value) in letCount) {
+
+        if (value >= 2) {
+            myCount[key] = value
+        }
+    }
+    return myCount.toMap()
+}
 
 /**
  * Средняя
