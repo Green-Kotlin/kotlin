@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -151,7 +152,20 @@ fun times(a: List<Int>, b: List<Int>): Int = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int = TODO()
+fun polynom(p: List<Int>, x: Int): Int {
+    var sum = 0
+    when (p.size) {
+        0 -> sum = 0
+        1 -> sum = p[0]
+        else -> {
+            for (i in 1 until p.size) {
+                sum += p[i] * x.toDouble().pow(i.toDouble()).toInt()
+            }
+            return p[0] + sum
+        }
+    }
+    return sum
+}
 
 /**
  * Средняя
@@ -163,7 +177,16 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    if (list.isEmpty()) return list
+    if (list.size == 1) return list
+
+    for (i in 1 until list.size) {
+        list[i] += list[i - 1]
+    }
+    return list
+
+}
 
 /**
  * Средняя
@@ -172,7 +195,16 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    while (n != 0) {
+        for (i in 1 until n) {
+            println(i)
+        }
+
+    }
+    return list.toList()
+}
 
 /**
  * Сложная
