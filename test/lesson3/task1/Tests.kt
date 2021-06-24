@@ -84,6 +84,7 @@ class Tests {
         assertEquals(102334155, fib(40))
         assertEquals(1134903170, fib(45))
         assertEquals(1836311903, fib(46))
+        assertEquals(-298632863, fib(50))
         // Just to calculate it
         fib(50)
     }

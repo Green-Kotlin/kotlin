@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 /**
@@ -75,7 +76,28 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+
+//    fun get_fib(fibn: Int): Int {
+//        if (fibn <= 2) 1
+//        else get_fib(fibn - 2) + get_fib(fibn - 1)
+//    }
+
+    var fibFirst = 1
+    var fibSecond = 1
+    var fibResult = 1
+
+    if (n <= 2) return 1
+
+
+//    return get_fib(n)
+    for (i in 3..n) {
+        fibFirst = fibSecond
+        fibSecond = fibResult
+        fibResult = fibFirst + fibSecond
+    }
+    return fibResult
+}
 
 /**
  * Простая
@@ -133,7 +155,16 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var count = 0
+    var number = x
+    while (number != 1) {
+        if (number % 2 == 0) number /= 2
+        else number = number * 3 + 1
+        count += 1
+    }
+    return count
+}
 
 /**
  * Средняя
@@ -144,7 +175,18 @@ fun collatzSteps(x: Int): Int = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var p = x
+    var s = x
+    var n = 2
+    while (p > eps) {
+        p = -p * x * x / (n * (n + 1))
+        s += p
+        n += 2
+    }
+    println(s)
+    return s
+}
 
 /**
  * Средняя
@@ -155,7 +197,14 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var number = x
+    while (number >= eps) {
+        number = 1.0
+    }
+    println(number)
+    return number
+}
 
 /**
  * Средняя
