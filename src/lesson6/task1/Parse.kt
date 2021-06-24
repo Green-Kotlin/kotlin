@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+
 /**
  * Пример
  *
@@ -69,7 +70,62 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val splitData: List<String> = str.split(' ')
+    if (splitData.size != 3) return ""
+
+    try {
+        splitData[0].toInt()
+        splitData[2].toLong()
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+
+    val day = twoDigitStr(splitData[0].toInt())
+    val year: Int = splitData[2].toInt()
+
+    if (day.toInt() > 31) return ""
+
+    val mounth = when (splitData[1]) {
+        "января" -> "01"
+        "февраля" -> "02"
+        "марта" -> "03"
+        "апреля" -> "04"
+        "мая" -> "05"
+        "июня" -> "06"
+        "июля" -> "07"
+        "августа" -> "08"
+        "сентября" -> "09"
+        "октября" -> "10"
+        "ноября" -> "11"
+        "декабря" -> "12"
+        else -> return ""
+    }
+
+
+
+    if ((mounth.toInt() in 1..7) && (mounth.toInt() % 2 == 0) && (day.toInt() > 30)) return ""
+    if ((mounth.toInt() in 8..12) && (mounth.toInt() % 2 != 0) && (day.toInt() > 30)) return ""
+
+
+    if ((mounth == "02") && (year < 1582) && (year % 4 != 0) && (day.toInt() > 28)) return ""
+    if ((mounth == "02") && (year < 1582) && (year % 4 == 0) && (day.toInt() > 29)) return ""
+
+    if ((mounth == "02") && year > 1582) {
+        if (day.toInt() > 29) return ""
+
+        return when {
+            (year % 4 != 0) && day.toInt() > 28 -> ""
+            year % 400 == 0 -> "${day}.${mounth}.${splitData[2]}"
+            (year % 100 == 0) && day.toInt() > 28 -> ""
+            else -> "${day}.${mounth}.${splitData[2]}"
+        }
+
+    }
+
+    return "${day}.${mounth}.${splitData[2]}"
+}
+
 
 /**
  * Средняя
@@ -97,7 +153,26 @@ fun dateDigitToStr(digital: String): String = TODO()
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if ("_" in phone) return ""
+    if ("()" in phone) return ""
+
+    val newPhone = phone.replace("(", "")
+        .replace(")", "")
+        .replace("-", "")
+        .replace("+", "")
+        .replace(" ", "")
+
+
+    try {
+        newPhone.toLong()
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+
+    if (phone.startsWith("+")) return "+$newPhone"
+    return newPhone
+}
 
 /**
  * Средняя

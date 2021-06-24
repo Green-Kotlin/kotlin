@@ -41,6 +41,18 @@ class Tests {
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
         assertEquals("", dateStrToDigit("32 сентября 2011"))
         assertEquals("", dateStrToDigit("29 февраля 1993"))
+        assertEquals("01.02.1", dateStrToDigit("01 февраля 1"))
+        assertEquals("01.12.1", dateStrToDigit("01 декабря 1"))
+        assertEquals("", dateStrToDigit("31 апреля 1"))
+        assertEquals("31.10.1", dateStrToDigit("31 октября 1"))
+        assertEquals("31.01.1", dateStrToDigit("31 января 1"))
+        assertEquals("", dateStrToDigit("29 февраля 1"))
+        assertEquals("31.07.1", dateStrToDigit("31 июля 1"))
+        assertEquals("", dateStrToDigit("31 сентября 1"))
+        assertEquals("", dateStrToDigit("29 февраля 3028900"))
+        assertEquals("01.01.16385", dateStrToDigit("01 января 16385"))
+        assertEquals("01.02.1645", dateStrToDigit("01 февраля 1645"))
+        assertEquals("", dateStrToDigit("aaaaaaaaaaaaaaaaa февраля 1645"))
     }
 
     @Test
@@ -58,6 +70,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun flattenPhoneNumber() {
+        assertEquals("", flattenPhoneNumber("134_+ssd874"))
         assertEquals("+79211234567", flattenPhoneNumber("+7 (921) 123-45-67"))
         assertEquals("123456798", flattenPhoneNumber("12 --  34- 5 -- 67 -98"))
         assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
